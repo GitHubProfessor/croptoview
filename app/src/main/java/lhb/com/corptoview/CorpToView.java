@@ -123,7 +123,7 @@ public class CorpToView extends ImageView {
     /**
      * 只画一次，初始化view中图片，裁剪框等的位置
      */
-    private boolean isDrawed = false;
+    private boolean isFirstDraw = true;
 
     public CorpToView(Context context) {
         super(context);
@@ -167,12 +167,13 @@ public class CorpToView extends ImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-        if(!isDrawed) {
+        // 获取自定义view宽高，设置第一次绘图是裁剪框和图片在中心显示。
+        // 如果是通过intent打开相册选择图片，这个地方需要自行修改，就不能使用这个判断了，需要把下面的几个方法放到其他的位置
+        if(isFirstDraw) {
             setViewRectF();
             setClipRectDefaultPosition();
             setPictureDefaultPosition();
-            isDrawed = true;
+            isFirstDraw = false;
         }
 
         // 有图片才画
